@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.user.dto.CreateUserDto;
 import ru.practicum.shareit.user.dto.UpdateUserDto;
+import ru.practicum.shareit.user.dto.UserDto;
 
 @RestController
 @RequestMapping("/users")
@@ -13,18 +14,24 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping()
-    public User createUser(@Valid @RequestBody CreateUserDto userDto) {
-        return userService.createUser(userDto);
+    public UserDto createUser(@Valid @RequestBody CreateUserDto userDto) {
+        User user = userService.createUser(userDto);
+
+        return UserDtoMapper.map(user);
     }
 
     @PatchMapping("/{id}")
-    public User updateUser(@Valid @RequestBody UpdateUserDto userDto, @PathVariable Long id) {
-        return userService.updateUser(id, userDto);
+    public UserDto updateUser(@Valid @RequestBody UpdateUserDto userDto, @PathVariable Long id) {
+        User user = userService.updateUser(id, userDto);
+
+        return UserDtoMapper.map(user);
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
-        return userService.getUser(id);
+    public UserDto getUser(@PathVariable Long id) {
+        User user = userService.getUser(id);
+
+        return UserDtoMapper.map(user);
     }
 
     @DeleteMapping("/{id}")
