@@ -1,27 +1,19 @@
-package ru.practicum.shareit.item.model;
+package ru.practicum.shareit.item.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Data;
-import ru.practicum.shareit.user.User;
 
 @Data
-@Builder
-public class Item {
-    @NotNull(message = "Id is required")
-    private Long id;
-
+public class CreateItemDto {
     @NotNull(message = "Name is required")
+    @NotBlank(message = "Name cannot be blank")
     private String name;
 
     @NotNull(message = "Description is required")
+    @NotBlank(message = "Description cannot be blank")
     private String description;
 
     @NotNull(message = "Available is required")
     private Boolean available;
-
-    @NotNull(message = "Owner is required")
-    private User owner;
-
-    private String request;
 }
