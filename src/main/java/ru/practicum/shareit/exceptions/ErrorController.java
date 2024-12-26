@@ -37,4 +37,11 @@ public class ErrorController {
         log.error("Произошла непредвиденная ошибка: {}", ex.getMessage(), ex);
         return new ErrorResponse("Произошла непредвиденная ошибка. Пожалуйста, попробуйте позже.");
     }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler({ ForbiddenException.class })
+    public ErrorResponse handleForbiddenException(final Exception ex) {
+        log.error("Доступ запрещен: {}", ex.getMessage(), ex);
+        return new ErrorResponse("Доступ запрещен.");
+    }
 }
