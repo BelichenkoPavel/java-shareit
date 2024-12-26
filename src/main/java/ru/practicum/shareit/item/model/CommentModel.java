@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-@Table(name = "comment")
+@Table(name = "comment", schema = "public")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

@@ -11,7 +11,7 @@ import ru.practicum.shareit.user.UserModel;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "booking")
+@Table(name = "booking", schema = "public")
 @Data
 @Builder
 @AllArgsConstructor
