@@ -23,6 +23,7 @@ public class ItemMapper {
                 .request(item.getRequest())
                 .build();
     }
+
     public static Item map(ItemModel item, List<CommentModel> commentModels) {
         User user = UserModelMapper.map(item.getOwner());
 
