@@ -3,6 +3,7 @@ package ru.practicum.shareit.booking;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.CreateBookingDto;
 import ru.practicum.shareit.exceptions.BadRequestException;
@@ -27,7 +28,8 @@ public class BookingService {
 
     private final IBookingDBRepository bookingRepository;
 
-    BookingDto createBooking(CreateBookingDto bookingDto, Long userId) {
+    @Transactional
+    public BookingDto createBooking(CreateBookingDto bookingDto, Long userId) {
         if (bookingDto.getStart().isEqual(bookingDto.getEnd())) {
             throw new BadRequestException("Start and end dates are equal");
         }
@@ -36,12 +38,13 @@ public class BookingService {
 
         Item item = itemService.getItemById(bookingDto.getItemId());
 
-        BookingModel saveData = BookingModelMapper.createMap(bookingDto, item, user);
+        BookingModel saveData = BookingMapper.createMap(bookingDto, item, user);
         BookingModel bookingModel = bookingRepository.save(saveData);
 
-        return BookingDtoMapper.map(bookingModel);
+        return BookingMapper.map(bookingModel);
     }
 
+    @Transactional
     public BookingDto updateBooking(Long bookingId, Boolean approved, Long userId) {
         Optional<BookingModel> modelOpt = bookingRepository.findById(bookingId);
 
@@ -63,7 +66,7 @@ public class BookingService {
 
         bookingRepository.save(model);
 
-        return BookingDtoMapper.map(model);
+        return BookingMapper.map(model);
     }
 
     public BookingDto getBooking(Long bookingId) {
@@ -73,12 +76,12 @@ public class BookingService {
             throw new NotFoundException("Booking not found");
         }
 
-        return BookingDtoMapper.map(bookingModel.get());
+        return BookingMapper.map(bookingModel.get());
     }
 
     public List<BookingDto> getBookings(Long userId) {
         List<BookingModel> bookingModels = bookingRepository.findByBookerId(userId);
 
-        return BookingDtoMapper.mapList(bookingModels);
+        return BookingMapper.mapList(bookingModels);
     }
 }

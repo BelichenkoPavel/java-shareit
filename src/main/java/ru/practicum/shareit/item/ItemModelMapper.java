@@ -1,11 +1,13 @@
 package ru.practicum.shareit.item;
 
+import lombok.experimental.UtilityClass;
 import ru.practicum.shareit.item.dto.CreateItemDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.model.ItemModel;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserModelMapper;
 
+@UtilityClass
 public class ItemModelMapper {
     public static ItemModel mapCreateItem(CreateItemDto itemDto, User user) {
         return ItemModel.builder()

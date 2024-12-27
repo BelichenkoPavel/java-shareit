@@ -1,13 +1,15 @@
 package ru.practicum.shareit.item;
 
+import lombok.experimental.UtilityClass;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.CommentModel;
 
 import java.util.List;
 
+@UtilityClass
 public class CommentDtoMapper {
-    static CommentDto map(CommentModel model) {
+    public static CommentDto map(CommentModel model) {
         return CommentDto.builder()
                 .id(model.getId())
                 .text(model.getText())
@@ -15,7 +17,7 @@ public class CommentDtoMapper {
                 .build();
     }
 
-    static CommentDto map(Comment comment) {
+    public static CommentDto map(Comment comment) {
         return CommentDto.builder()
                 .id(comment.getId())
                 .text(comment.getText())
@@ -23,7 +25,7 @@ public class CommentDtoMapper {
                 .build();
     }
 
-    static List<CommentDto> mapList(List<Comment> comments) {
+    public static List<CommentDto> mapList(List<Comment> comments) {
         return comments.stream()
                 .map(CommentDtoMapper::map)
                 .toList();

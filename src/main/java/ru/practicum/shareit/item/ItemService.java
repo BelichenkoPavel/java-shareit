@@ -3,6 +3,7 @@ package ru.practicum.shareit.item;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.BookingService;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.exceptions.BadRequestException;
@@ -33,6 +34,7 @@ public class ItemService {
 
     private final BookingService bookingService;
 
+    @Transactional
     public Item addItem(CreateItemDto itemDto, Long userId) {
         User user = userService.getUser(userId);
 
@@ -40,6 +42,7 @@ public class ItemService {
         return ItemMapper.map(userModel);
     }
 
+    @Transactional
     public Item updateItem(Long id, UpdateItemDto itemDto, Long userId) {
         User user = userService.getUser(userId);
 
@@ -114,6 +117,7 @@ public class ItemService {
         return ItemMapper.mapModelsList(itemsModels);
     }
 
+    @Transactional
     public CommentDto addComment(Long itemId, CommentCreateDto commentDto, Long userId) {
         User user = userService.getUser(userId);
 

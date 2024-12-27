@@ -1,7 +1,9 @@
 package ru.practicum.shareit.user;
 
+import lombok.experimental.UtilityClass;
 import ru.practicum.shareit.user.dto.CreateUserDto;
 
+@UtilityClass
 public class UserModelMapper {
     public static UserModel mapCreateDto(CreateUserDto user) {
         return UserModel.builder()
