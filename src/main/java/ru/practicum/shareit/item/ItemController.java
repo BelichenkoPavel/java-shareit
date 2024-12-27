@@ -5,9 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.item.dto.CreateItemDto;
-import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.dto.UpdateItemDto;
+import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.model.Item;
 
 import java.util.List;
@@ -52,5 +50,10 @@ public class ItemController {
         List<Item> items = itemService.findByName(text);
 
         return ItemDtoMapper.mapList(items);
+    }
+
+    @PostMapping("/{itemId}/comment")
+    public CommentDto addComment(@PathVariable Long itemId, @Valid @RequestBody CommentCreateDto commentDto, @NotNull @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return itemService.addComment(itemId, commentDto, userId);
     }
 }

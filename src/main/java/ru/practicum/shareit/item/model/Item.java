@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import ru.practicum.shareit.user.User;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Builder
 public class Item {
@@ -24,4 +27,6 @@ public class Item {
     private User owner;
 
     private String request;
+
+    private List<Comment> comments = new ArrayList<>();
 }

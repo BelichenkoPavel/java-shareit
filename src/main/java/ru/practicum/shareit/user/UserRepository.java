@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.user.dto.CreateUserDto;
 import ru.practicum.shareit.user.dto.UpdateUserDto;
 
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 @Repository
@@ -13,7 +14,7 @@ public class UserRepository {
     private Long id = 0L;
 
     public User createUser(CreateUserDto userDto) {
-        User user = new User(nextId(), userDto.getName(), userDto.getEmail());
+        User user = new User(nextId(), userDto.getName(), userDto.getEmail(), new ArrayList<>());
 
         items.put(user.getId(), user);
 

@@ -3,7 +3,10 @@ package ru.practicum.shareit.item.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-import ru.practicum.shareit.user.User;
+import ru.practicum.shareit.user.dto.UserDto;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -21,7 +24,13 @@ public class ItemDto {
     private Boolean available;
 
     @NotNull(message = "Owner is required")
-    private User owner;
+    private UserDto owner;
 
     private String request;
+
+    private List<CommentDto> comments = new ArrayList<>();
+
+    private String lastBooking;
+
+    private String nextBooking;
 }
