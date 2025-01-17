@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.CreateBookingDto;
 import ru.practicum.shareit.item.ItemDtoMapper;
+import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserDtoMapper;
@@ -48,6 +49,13 @@ public class BookingControllerTest {
             .email("test@test.com")
             .build();
 
+    Comment comment = Comment
+            .builder()
+            .id(1L)
+            .text("text")
+            .author(user)
+            .build();
+
     Item item = Item.builder()
             .id(1L)
             .name("name")
@@ -55,7 +63,7 @@ public class BookingControllerTest {
             .requestId(1L)
             .available(true)
             .owner(user)
-            .comments(List.of())
+            .comments(List.of(comment))
             .build();
 
     BookingDto bookingModel = BookingDto.builder()
@@ -81,6 +89,20 @@ public class BookingControllerTest {
             .getContentAsString();
 
         assertEquals(result, mapper.writeValueAsString(bookingModel));
+    }
+
+    @Test
+    public void testCreateUserIdIsRequired() throws Exception {
+        Mockito.when(bookingService.createBooking(ArgumentMatchers.any(CreateBookingDto.class), ArgumentMatchers.anyLong()))
+                .thenReturn(bookingModel);
+
+        mvc.perform(post("/bookings")
+                        .contentType("application/json")
+                        .content(mapper.writeValueAsString(createBookingDto)))
+                .andExpect(status().is5xxServerError())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
     }
 
     @Test

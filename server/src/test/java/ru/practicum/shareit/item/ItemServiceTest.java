@@ -132,6 +132,11 @@ public class ItemServiceTest {
         Item item = itemService.addItem(createItemDto, 1L);
 
         assertEquals(item.getId(), 1L);
+
+        createItemDto.setRequestId(null);
+        Item item2 = itemService.addItem(createItemDto, 1L);
+
+        assertEquals(item2.getId(), 1L);
     }
 
     @Test

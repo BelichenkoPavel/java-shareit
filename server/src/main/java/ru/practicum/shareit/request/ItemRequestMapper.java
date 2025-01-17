@@ -12,10 +12,4 @@ public class ItemRequestMapper {
                 .created(item.getCreated())
                 .build();
     }
-
-    public static List<ItemRequestModel> mapList(List<ItemRequestDto> items) {
-        return items.stream()
-                .map(ItemRequestMapper::map)
-                .toList();
-    }
 }
