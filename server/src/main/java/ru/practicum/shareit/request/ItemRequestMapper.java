@@ -2,8 +2,6 @@ package ru.practicum.shareit.request;
 
 import ru.practicum.shareit.request.dto.ItemRequestDto;
 
-import java.util.List;
-
 public class ItemRequestMapper {
     public static ItemRequestModel map(ItemRequestDto item) {
         return ItemRequestModel.builder()
