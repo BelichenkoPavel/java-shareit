@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.BookingService;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.exceptions.BadRequestException;
+import ru.practicum.shareit.exceptions.InternalServerException;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.item.dto.CommentCreateDto;
 import ru.practicum.shareit.item.dto.CommentDto;
@@ -96,7 +96,7 @@ public class ItemService {
         ItemModel itemModel = itemModelOpt.get();
 
         if (!itemModel.getAvailable()) {
-            throw new BadRequestException("Item is not available");
+            throw new InternalServerException("Item is not available");
         }
 
         return ItemMapper.map(itemModel);
@@ -137,13 +137,13 @@ public class ItemService {
         List<BookingDto> bookingsDto = bookingService.getBookings(userId);
 
         if (bookingsDto.isEmpty()) {
-            throw new BadRequestException("You can't comment item");
+            throw new NotFoundException("booking not found");
         }
 
         BookingDto bookingDto = bookingsDto.get(0);
 
         if (bookingDto.getEnd().isAfter(LocalDateTime.now())) {
-            throw new BadRequestException("You can't comment item");
+            throw new InternalServerException("You can't comment item");
         }
 
         CommentModel saveData = CommentModelMapper.createMap(commentDto, item, user);

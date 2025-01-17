@@ -11,8 +11,8 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.CreateBookingDto;
-import ru.practicum.shareit.exceptions.BadRequestException;
 import ru.practicum.shareit.exceptions.ForbiddenException;
+import ru.practicum.shareit.exceptions.InternalServerException;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.item.ItemModelMapper;
 import ru.practicum.shareit.item.ItemService;
@@ -93,7 +93,7 @@ public class BookingServiceTest {
         createBookingDto.setStart(time);
         createBookingDto.setEnd(time);
 
-        Exception e = assertThrows(BadRequestException.class, () -> bookingService.createBooking(createBookingDto, 1L));
+        Exception e = assertThrows(InternalServerException.class, () -> bookingService.createBooking(createBookingDto, 1L));
 
         assertEquals(e.getMessage(), "Start and end dates are equal");
     }

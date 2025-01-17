@@ -12,7 +12,7 @@ import org.mockito.quality.Strictness;
 import ru.practicum.shareit.booking.BookingService;
 import ru.practicum.shareit.booking.Status;
 import ru.practicum.shareit.booking.dto.BookingDto;
-import ru.practicum.shareit.exceptions.BadRequestException;
+import ru.practicum.shareit.exceptions.InternalServerException;
 import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.item.dto.CommentCreateDto;
 import ru.practicum.shareit.item.dto.CreateItemDto;
@@ -252,7 +252,7 @@ public class ItemServiceTest {
         Mockito.when(repository.findById(ArgumentMatchers.anyLong()))
                 .thenReturn(Optional.of(itemModel));
 
-        Exception e = assertThrows(BadRequestException.class, () -> itemService.getItemById(1L));
+        Exception e = assertThrows(InternalServerException.class, () -> itemService.getItemById(1L));
 
         assertEquals(e.getMessage(), "Item is not available");
     }
@@ -282,8 +282,8 @@ public class ItemServiceTest {
         Mockito.when(bookingService.getBookings(ArgumentMatchers.anyLong()))
                 .thenReturn(List.of());
 
-        Exception e = assertThrows(BadRequestException.class, () -> itemService.addComment(1L, commentCreateDto, 1L));
+        Exception e = assertThrows(NotFoundException.class, () -> itemService.addComment(1L, commentCreateDto, 1L));
 
-        assertEquals(e.getMessage(), "You can't comment item");
+        assertEquals(e.getMessage(), "booking not found");
     }
 }

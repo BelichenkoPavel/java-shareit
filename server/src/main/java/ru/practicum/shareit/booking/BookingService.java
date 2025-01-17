@@ -6,9 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.CreateBookingDto;
-import ru.practicum.shareit.exceptions.BadRequestException;
-import ru.practicum.shareit.exceptions.ForbiddenException;
-import ru.practicum.shareit.exceptions.NotFoundException;
+import ru.practicum.shareit.exceptions.*;
 import ru.practicum.shareit.item.ItemService;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.User;
@@ -31,7 +29,7 @@ public class BookingService {
     @Transactional
     public BookingDto createBooking(CreateBookingDto bookingDto, Long userId) {
         if (bookingDto.getStart().isEqual(bookingDto.getEnd())) {
-            throw new BadRequestException("Start and end dates are equal");
+            throw new InternalServerException("Start and end dates are equal");
         }
 
         User user = userService.getUser(userId);
