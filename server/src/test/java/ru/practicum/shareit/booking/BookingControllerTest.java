@@ -82,6 +82,7 @@ public class BookingControllerTest {
 
         assertEquals(result, mapper.writeValueAsString(bookingModel));
     }
+
     @Test
     public void testUpdate() throws Exception {
         Mockito.when(bookingService.updateBooking(ArgumentMatchers.anyLong(), ArgumentMatchers.anyBoolean(), ArgumentMatchers.anyLong()))

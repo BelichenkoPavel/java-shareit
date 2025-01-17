@@ -14,6 +14,7 @@ public class ItemRequestDtoMapper {
                 .created(item.getCreated())
                 .build();
     }
+
     public static ItemRequestDto map(ItemRequestModel item, List<Item> list) {
         return ItemRequestDto.builder()
                 .id(item.getId())
