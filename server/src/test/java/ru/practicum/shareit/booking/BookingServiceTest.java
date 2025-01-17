@@ -89,8 +89,9 @@ public class BookingServiceTest {
 
     @Test
     public void testCreateEqualDates() {
-        createBookingDto.setStart(LocalDateTime.now());
-        createBookingDto.setEnd(LocalDateTime.now());
+        LocalDateTime time = LocalDateTime.now();
+        createBookingDto.setStart(time);
+        createBookingDto.setEnd(time);
 
         Exception e = assertThrows(BadRequestException.class, () -> bookingService.createBooking(createBookingDto, 1L));
 
