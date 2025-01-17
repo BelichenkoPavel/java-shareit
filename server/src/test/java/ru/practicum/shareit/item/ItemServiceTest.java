@@ -17,6 +17,7 @@ import ru.practicum.shareit.exceptions.NotFoundException;
 import ru.practicum.shareit.item.dto.CommentCreateDto;
 import ru.practicum.shareit.item.dto.CreateItemDto;
 import ru.practicum.shareit.item.dto.UpdateItemDto;
+import ru.practicum.shareit.item.model.CommentModel;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.model.ItemModel;
 import ru.practicum.shareit.request.ItemRequestService;
@@ -110,6 +111,13 @@ public class ItemServiceTest {
             .text("test text")
             .build();
 
+    CommentModel commentModel = CommentModel
+            .builder()
+            .id(1L)
+            .text("test text")
+            .author(UserModelMapper.mapDto(user))
+            .build();
+
     @Test
     public void testCreate() {
         Mockito.when(userService.getUser(ArgumentMatchers.anyLong()))
@@ -175,6 +183,52 @@ public class ItemServiceTest {
         Item item = itemService.getItemById(1L);
 
         assertEquals(item.getId(), 1L);
+    }
+
+    @Test
+    public void testGetItem() {
+        Mockito.when(repository.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.of(itemModel));
+
+        Mockito.when(commentDBRepository.findAllByItemId(ArgumentMatchers.anyLong()))
+            .thenReturn(List.of(commentModel));
+
+        Item item = itemService.getItem(1L, 1L);
+
+        assertEquals(item.getComments().size(), 1);
+    }
+
+    @Test
+    public void testGetItemUserNotFound() {
+        Mockito.when(repository.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(Optional.empty());
+
+        Exception e = assertThrows(NotFoundException.class, () -> itemService.getItem(1L, 1L));
+
+        assertEquals(e.getMessage(), "Item not found");
+    }
+
+    @Test
+    public void testGetItems() {
+        Mockito.when(repository.findByOwnerId(ArgumentMatchers.anyLong()))
+                .thenReturn(List.of(itemModel));
+
+        Mockito.when(commentDBRepository.findAllByItemId(ArgumentMatchers.anyLong()))
+                .thenReturn(List.of(commentModel));
+
+        List<Item> items = itemService.getItems(1L);
+
+        assertEquals(items.size(), 1);
+    }
+
+    @Test
+    public void testGetByName() {
+        Mockito.when(repository.findByNameContaining(ArgumentMatchers.anyString()))
+                .thenReturn(List.of(itemModel));
+
+        List<Item> items = itemService.findByName("test");
+
+        assertEquals(items.size(), 1);
     }
 
     @Test
